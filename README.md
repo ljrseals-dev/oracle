@@ -46,10 +46,10 @@ On the physical fast-render trajectory, output 4 correlated `+0.9754` with centr
 
 Read the complete preregistered report and structured record:
 
-- [`feature_decorrelation_report.md`](feature_decorrelation_report.md)
-- [`feature_decorrelation_acceptance.json`](feature_decorrelation_acceptance.json)
-- [`distribution_matched_retrain_report.md`](distribution_matched_retrain_report.md)
-- [`distribution_matched_retrain_acceptance.json`](distribution_matched_retrain_acceptance.json)
+- [`feature_decorrelation_report.md`](experiments/feature_decorrelation/reports/feature_decorrelation_report.md)
+- [`feature_decorrelation_acceptance.json`](experiments/feature_decorrelation/results/feature_decorrelation_acceptance.json)
+- [`distribution_matched_retrain_report.md`](experiments/distribution_matched_retrain/reports/distribution_matched_retrain_report.md)
+- [`distribution_matched_retrain_acceptance.json`](experiments/distribution_matched_retrain/results/distribution_matched_retrain_acceptance.json)
 
 ## Requirements
 
@@ -71,8 +71,8 @@ No package manager lockfile or environment-specific pinning is included in this 
 From the project directory:
 
 ```bash
-python render_magnetic_clavecin.py --fast \
-  --checkpoint magnetic_oracle_feature_decorrelation.pt \
+python src/magnetic_oracle/render_magnetic_clavecin.py --fast \
+  --checkpoint artifacts/checkpoints/magnetic_oracle_feature_decorrelation.pt \
   --seed 1729 \
   --out render.wav \
   --diagnostics render.json
@@ -83,8 +83,8 @@ python render_magnetic_clavecin.py --fast \
 Show CLI options:
 
 ```bash
-python render_magnetic_clavecin.py --help
-python train_magnetic_oracle.py --help
+python src/magnetic_oracle/render_magnetic_clavecin.py --help
+python src/magnetic_oracle/train_magnetic_oracle.py --help
 ```
 
 ## Training examples
@@ -92,7 +92,7 @@ python train_magnetic_oracle.py --help
 The training script supports explicit objectives and distributions. Objectives and feature mappings are newly designed; neither is historical.
 
 ```bash
-python train_magnetic_oracle.py \
+python src/magnetic_oracle/train_magnetic_oracle.py \
   --objective feature-conditional \
   --distribution resonator \
   --samples 512 \
@@ -101,7 +101,7 @@ python train_magnetic_oracle.py \
   --out new_checkpoint.pt
 ```
 
-The specific preregistered feature-decorrelation experiment is reproducible from the experiment runner included in the experiment ZIP. Consult that runner and the report for its exact split, independent column permutation, training settings, and evaluation criteria.
+The specific preregistered feature-decorrelation experiment is reproducible from the experiment runner included in `experiments/feature_decorrelation/code/run_decorrelation_experiment.py`. Consult that runner and the report for its exact split, independent column permutation, training settings, and evaluation criteria.
 
 ## Checkpoint and validation notes
 

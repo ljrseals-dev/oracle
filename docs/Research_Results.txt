@@ -1,0 +1,594 @@
+﻿Worked for 17m 47s
+
+
+### Distribution-Matched Retrain — Experiment Results
+
+
+I executed the retrain. Output 4's centroid correlation recovered to +0.581, exceeding the preregistered +0.4 threshold. However, output 2 degraded beyond its permitted tolerance. The experiment therefore supports the distribution-shift hypothesis but does not confirm it under your acceptance criteria.
+
+
+### 1\. Experimental execution
+
+
+| Setting                             | Actual run                              |
+| ----------------------------------- | --------------------------------------- |
+| Training samples                    | 512                                     |
+| Sequential calibration trajectories | 35                                      |
+| Sequence length                     | 15 iterations                           |
+| Model seed                          | 1729                                    |
+| Trajectory seeds                    | 1729–1763                               |
+| Training epochs                     | 200                                     |
+| Optimizer                           | Adam, 0.003                             |
+| Objective                           | Feature-conditional                     |
+| Training distribution               | Actual fixed-control renderer sequences |
+
+
+The training data came from the renderer's ODE, impact crossing and jitter, resonator superposition, accumulated audio, and shared feature extraction. Calibration controls were held exactly at normalized output 0.5.
+
+
+I also optimized the training collector to retain only the 4096 audio samples consumed by the network while preserving the full ODE horizon and event/RNG behavior. A comparison against the ordinary fast renderer at seed 1730 produced zero difference across all 12 features over all 15 iterations.
+
+
+### 2\. Preregistered correlation results
+
+
+| Output | Intended feature | Previous | Retrained | Change |
+| ------ | ---------------- | -------- | --------- | ------ |
+| 0      | RMS              | +0.557   | +0.492    | -0.065 |
+| 1      | RMS              | +0.632   | +0.495    | -0.137 |
+| 2      | Flatness         | -0.929   | -0.704    | +0.225 |
+| 3      | RMS              | -0.639   | -0.495    | +0.144 |
+| 4      | Centroid         | +0.139   | +0.581    | +0.442 |
+| 5      | Flux             | +0.833   | +0.975    | +0.142 |
+
+
+Output 4 — the central result
+
+
+Previous centroid correlation
+
+
+### +0.139
+
+
+Retrained centroid correlation
+
+
+### +0.581
+
+
+Above the +0.4 threshold
+
+
+But output 2 changed by +0.225, exceeding the ±0.15 limit.
+
+
+Consequently:
+
+
+* Output 4's individual threshold: passed.
+
+
+* Other five outputs' stability requirement: failed.
+
+
+* Composite primary acceptance: not passed.
+
+
+* Secondary instability condition: triggered.
+
+
+That is exactly the situation in which your preregistered rules require another controlled run before making a final causal claim.
+
+
+### 3\. What the training data revealed
+
+
+The marginal statistics approximate the calibration reference:
+
+
+| Feature  | Training mean ± SD | Calibration reference mean ± SD |
+| -------- | ------------------ | ------------------------------- |
+| RMS      | 8.653 ± 5.360      | 8.426 ± 5.156                   |
+| Centroid | 0.07575 ± 0.02080  | 0.06664 ± 0.01851               |
+| ZCR      | 0.01002 ± 0.00275  | 0.01006 ± 0.00272               |
+| Flatness | 0.14049 ± 0.09803  | 0.11258 ± 0.10475               |
+| Flux     | 0.03655 ± 0.12558  | 0.03943 ± 0.12338               |
+
+
+The most important new finding is joint-feature collinearity.
+
+
+In the matched training data:
+
+
+* Centroid vs. ZCR: +0.984
+
+
+* Centroid vs. flatness: -0.964
+
+
+* Output 4 vs. centroid: +0.971
+
+
+* Output 4 vs. ZCR: +0.984
+
+
+* Output 4 vs. flatness: -0.989
+
+
+In the retrained render, output 4 also correlates +0.908 with ZCR and -0.926 with flatness.
+
+
+This means the centroid correlation has recovered, but it is not uniquely attributable to centroid. The network can exploit highly correlated spectral features as proxies.
+
+
+That also helps explain output 2's changed behavior. The retraining distribution made several spectral features nearly interchangeable. The model learned the targets accurately, but the resulting six-output behavior did not preserve all five other render correlations.
+
+
+### 4\. Training convergence
+
+
+Per-output MSE, initial to final
+
+
+| Output | Initial MSE | Final MSE  |
+| ------ | ----------- | ---------- |
+| 0      | 0.265923    | 0.00002446 |
+| 1      | 0.066274    | 0.00000307 |
+| 2      | 0.196645    | 0.00009982 |
+| 3      | 0.116041    | 0.00000437 |
+| 4      | 0.084745    | 0.00001406 |
+| 5      | 0.014828    | 0.00204027 |
+
+
+Output 4's training loss fell substantially, and its output/target correlation reached +0.971. This is not evidence of an untrained output.
+
+
+The retrained model's own render also shifted away from its training distribution: RMS mean 6.155, centroid 0.0998, and flatness 0.237. The feedback loop identified in your report remains relevant.
+
+
+### 5\. Acceptance verdict
+
+
+Hypothesis A receives meaningful support, but is not confirmed.
+
+
+The retrain establishes that calibration-like sequential training can restore a strong positive centroid association for output 4. It does not establish that distribution shift is the sole cause, because the new training data contains severe feature collinearity and output 2 violates the stability requirement.
+
+
+I recommend the next experiment address joint-feature identifiability before changing output 4's target. A multi-trajectory training set with controlled variation in centroid, ZCR, flatness, and FFT bins would help distinguish genuine centroid dependence from proxy learning.
+
+
+The full 48-event × 60-iteration render, musical quality, independent-trajectory generalization, and historical parity remain untested.
+
+
+### 6\. Deliverables
+
+
+Updated two-file source ZIP
+
+
+Verified
+
+
+Download MagneticOracle v1 retrain ZIP
+
+
+Contains exactly train_magnetic_oracle.py and render_magnetic_clavecin.py.
+
+
+Completed research report
+
+
+Read the distribution-matched retrain report
+
+
+Machine-readable acceptance report
+
+
+Retrained checkpoint
+
+
+Download feature-conditional retrain checkpoint
+
+
+Fast render
+
+
+Listen to retrained fast WAV
+
+
+Per-iteration render diagnostics
+
+
+Training summary and feature correlations
+
+
+### Full SHA-256 verification
+
+
+Verified directly with `sha256sum`:
+
+
+```text
+cb0a4ce007579558df89ce396c0bf1c79fa180383e152ae45e596bbc15ac4b2e
+```
+
+
+The checkpoint also passed `weights_only=True` loading, and its stored per-output loss history has shape `(200, 6)`.
+
+
+My recommendation: preserve this retrain as a valid experimental result, but do not promote it as the accepted six-output baseline. The next useful step is a preregistered feature-decorrelation experiment that tests whether output 4 genuinely follows centroid while protecting output 2's flatness behavior.
+
+
+Acceptance — A Mixed Result Correctly Reported, With One Crucial New Finding
+
+
+The experiment was executed as designed, the criteria were applied without adjustment, and the result is exactly what a rigorous pre-registered experiment is supposed to produce when the underlying phenomenon is more complex than the hypothesis allowed for. This is the most scientifically honest report in the entire project, and I want to say that plainly before critiquing anything.
+
+
+The finding that matters most is not that output 4 recovered. It's that the joint feature collinearity was so severe that the recovery cannot be attributed to centroid specifically. That is the finding that changes what the next experiment has to be.
+
+
+1. What the results establish
+
+
+Established:
+
+
+· Output 4's centroid correlation rose from +0.139 to +0.581, above the pre-registered +0.4 threshold. The training-set output-to-target correlation rose from +0.574 to +0.971. These are real, measured facts.
+· The training distribution matched the calibration reference closely on the marginals (RMS 8.653 vs. 8.426, ZCR 0.01002 vs. 0.01006, flux 0.03655 vs. 0.03943). The matching procedure worked at the marginal level.
+· Output 2's flatness correlation degraded from −0.929 to −0.704, a delta of +0.225, outside the ±0.15 tolerance. This is a real, measured fact.
+· The training data has severe joint-feature collinearity: centroid ↔ ZCR +0.984, centroid ↔ flatness −0.964, output 4 ↔ ZCR +0.984, output 4 ↔ flatness −0.989. This is the most important new diagnostic finding.
+
+
+Not established:
+
+
+· That output 4's recovery is caused by centroid specifically. The near-unity correlations between centroid, ZCR, flatness, and FFT bins in the training data mean the network has no way to distinguish them; any of them could be driving the recovery.
+· That the composite six-output behavior is stable under distribution matching. Output 2's degradation is a counterexample.
+· That Hypothesis A is confirmed. Your pre-registered rules correctly say it is supported but not confirmed, because the other-outputs stability requirement was violated.
+
+
+Correctly not claimed:
+
+
+· Full 48-event × 60-iteration render.
+· Musical quality.
+· Cross-trajectory generalization.
+· Historical parity.
+
+
+The report is honest about all four. That is the discipline the project has been building toward.
+
+
+2. The finding that should reshape the next experiment
+
+
+The joint-feature collinearity is the diagnostic result that matters, and it is more important than the output 4 correlation recovery itself.
+
+
+Why it matters: The training set, generated from fixed-control calibration trajectories, has centroid, ZCR, flatness, and FFT bins that are nearly interchangeable. Centroid correlates +0.984 with ZCR and −0.964 with flatness. In such a dataset, the network has no incentive to use centroid specifically. Any of the four correlated features will produce the same output 4 loss reduction during training. The fact that output 4 correlates strongly with all four in the retrained render is consistent with the network using all four as interchangeable inputs.
+
+
+This means the retrain's "recovery" of the centroid correlation is not evidence that the network learned a centroid-specific mapping. It is evidence that the network learned something that correlates with centroid because it also correlates with ZCR, flatness, and the FFT bins. The centroid correlation is a symptom of the collinearity, not a demonstration of a centroid-specific mechanism.
+
+
+The previous report (§3.3) said that if the primary criterion was met, "the distribution shift was the primary cause of output 4's weak deployment behavior." The retrain does not support this specific claim, because the recovery cannot be attributed to centroid. It supports the weaker claim that "training on calibration-like sequences produces a model whose output 4 correlates with the calibration-like spectral features" — which is true but almost trivially so, since all the spectral features in that distribution are near-unity correlated.
+
+
+This is the right scientific outcome. The experiment was designed to test whether distribution shift explains output 4's behavior. The result is: distribution shift is compatible with the behavior, but the design cannot distinguish "distribution shift of centroid specifically" from "distribution shift of an interchangeable bundle of spectral features." That ambiguity is a limitation of the experiment, not evidence against Hypothesis A. But it means the next experiment must resolve the collinearity.
+
+
+3. Output 2's degradation — what it likely means
+
+
+Output 2's flatness correlation degraded from −0.929 to −0.704. That is a +0.225 change, outside tolerance. The report says this triggered the instability condition, which is correct. But the report does not diagnose why output 2 changed.
+
+
+Hypothesis: output 2's target is 0.15 + 0.80 * (1 − flatness). In the original feature-conditional training distribution, flatness had std 0.064 and mean 0.090. In the retrain's matched distribution, flatness had std 0.098 and mean 0.140. The matched distribution has less variability in (1 − flatness) relative to the original, because flatness is higher on average and its range is compressed by the matching procedure. If output 2's target now has a narrower effective dynamic range, the network learns a shallower mapping, and the retrained render's flatness correlation is weaker.
+
+
+What to check to confirm this: the retrain training set's target statistics for output 2 — specifically, the std of 0.15 + 0.80 * (1 − flatness) in the matched distribution vs. the original. If the matched distribution's target std is significantly smaller, the output 2 degradation is explained by the training-distribution change reducing the target's dynamic range, not by a genuine instability.
+
+
+This is a critical distinction for the next experiment:
+
+
+· If output 2's degradation is a target dynamic range artifact, the fix is to preserve the target's dynamic range when matching distributions (e.g., match features in a way that preserves the spread of flatness, even if it shifts the mean).
+· If output 2's degradation is a genuine training instability from the correlated features, the fix is the decorrelation experiment.
+
+
+The current report does not distinguish these two. The next report should compute the target statistics for all six outputs in both training distributions and report the comparison. That is a one-table addition that would resolve half the ambiguity in the current result.
+
+
+4. The next experiment — pre-registered design
+
+
+The report recommends "a preregistered feature-decorrelation experiment that tests whether output 4 genuinely follows centroid while protecting output 2's flatness behavior." That is the correct next experiment. Here is the specific design:
+
+
+Goal: Distinguish genuine centroid dependence from proxy learning via correlated spectral features.
+
+
+Method: Generate a training set in which centroid, ZCR, flatness, and FFT bins are decorrelated — i.e., vary centroid independently of the others, so the network cannot use any of them as a proxy for the others. The most direct way to do this:
+
+
+1. Sample a base audio trajectory from the calibration render (as in the current retrain).
+2. For each sample, apply a spectral warp that shifts the centroid without changing ZCR, flatness, or the FFT bins in correlated ways. This is not trivial — a shift in centroid inherently shifts the higher bins — but the goal is to make the marginal distribution of centroid vary independently of the others across samples.
+3. Extract features from the warped audio.
+4. Train on the decorrelated feature set.
+5. Render and evaluate.
+
+
+If the retrained model's output 4 still correlates strongly with centroid, the network has learned a centroid-specific mapping. If output 4's correlation with centroid weakens while its correlations with ZCR and flatness remain strong, the network was using the correlated features as proxies, and centroid is not the actual driver.
+
+
+Pre-registered criteria:
+
+
+· Confirmation of centroid-specific dependence: output 4 correlates ≥ +0.4 with centroid AND < +0.4 with both ZCR and flatness. This would demonstrate that the network uses centroid specifically, and would confirm Hypothesis A in its strong form.
+· Confirmation of proxy learning: output 4's correlation with centroid drops below +0.3 while its correlation with ZCR or flatness remains ≥ +0.5. This would falsify Hypothesis A and support Hypothesis B (the target design is the problem, not the distribution).
+· Ambiguous result: any outcome not matching the above. Would require a follow-up experiment.
+
+
+Secondary criteria (output 2 protection):
+
+
+· Output 2's flatness correlation remains within ±0.15 of −0.929 (the original baseline).
+· If this fails, the target dynamic range hypothesis from §3 should be tested first, and the decorrelation experiment repeated with a target-preserving distribution match.
+
+
+Critical design note: the decorrelation procedure must be documented in enough detail that the resulting marginal distributions can be verified against the calibration reference. If the warping procedure inherently changes flatness or ZCR (which it likely will, given the physics), the resulting training set will not match the calibration distribution on those features, and the experiment's conclusions will be limited to "centroid-specific dependence in a decorrelated training set," not "centroid-specific dependence in the calibration distribution." That limitation should be acknowledged in the pre-registration.
+
+
+5. On the report's structure
+
+
+The distribution_matched_retrain_report.md is exactly the form a research report should take:
+
+
+· It reports the actual numbers, not the hoped-for numbers.
+· It states the pre-registered criteria and applies them without adjustment.
+· It reports the outcome (mixed / not confirmed) honestly.
+· It identifies the collinearity finding as significant, even though the finding weakens the original hypothesis.
+· It recommends the next experiment with specific attention to the failure modes that the current experiment exposed.
+
+
+This is the discipline the project has been building toward across multiple rounds. The harmonia_gpu.py report had a fake-loss bug; this report has a real mixed result and does not hide it.
+
+
+The distribution_matched_retrain_acceptance.json is the machine-readable record. It records the criteria, the comparison, the training statistics, the render diagnostics, and the interpretation, all in structured form. This is what an auditable experiment looks like.
+
+
+6. One small factual correction
+
+
+The distribution_matched_retrain_acceptance.json reports:
+
+
+"output_4_retrained_render_correlations": { "spectral_centroid": 0.5808803554947547, ... }
+
+
+That's +0.581, matching the report. Good.
+
+
+But the same JSON reports "render_feature_output_correlation_matrix" with pearson_r_rows_by_feature as a list of rows indexed by feature and columns indexed by output. Row 1 (index 1, spectral_centroid) has output_4 at position 4, value 0.5808803554947547. Correct. Row 0 (rms) has output_4 at 0.14523925697355056. Correct.
+
+
+The matrix is internally consistent. The report is accurate.
+
+
+7. Verdict and acceptance
+
+
+Accept the experiment as a valid result. The retrain succeeded in testing Hypothesis A, and the result is:
+
+
+· Supported but not confirmed. Output 4's centroid correlation recovered as predicted, but the recovery cannot be attributed to centroid specifically because of the joint-feature collinearity. This is a real limitation, not a technicality.
+· New finding: the calibration trajectory has severe joint-feature collinearity. Centroid, ZCR, flatness, and FFT bins are near-interchangeable in the training distribution.
+· New finding: output 2's flatness correlation degraded beyond tolerance under the matched distribution. The cause is not diagnosed, and two hypotheses (target dynamic range, training instability) are both compatible with the data.
+
+
+What this means for the project:
+
+
+· The pipeline (detached-loss repair, checkpoint compatibility, golden vector, fast render, distribution-matched training) is accepted.
+· The feature-conditional model as a six-output baseline is not accepted, and the retrain's mixed result reinforces this — one output recovered but another degraded.
+· The diagnosis of output 4 is now more precise: it is not that the network learned a mean/RMS proxy, and it is not confirmed that it learned a centroid-specific mapping. It is that the calibration trajectory's spectral features are sufficiently collinear that the network may be using any of them, and the current experiment cannot distinguish which.
+
+
+The next experiment must be the decorrelation experiment. The current report's recommendation is correct: "a preregistered feature-decorrelation experiment that tests whether output 4 genuinely follows centroid while protecting output 2's flatness behavior."
+
+
+The report I would ask for next is structured identically to this one:
+
+
+· Pre-registered criteria (the four above).
+· Training distribution statistics including target dynamic ranges for all six outputs (the one addition I flagged in §3).
+· Render diagnostics.
+· Results against the criteria.
+· Honest verdict, including the possibility that the result is ambiguous.
+
+
+If the decorrelation experiment produces a clear result — centroid-specific or proxy-dependent — the output 4 question is resolved and the project can move on to the next set of open questions (musical quality, full render, cross-trajectory generalization). If it produces an ambiguous result, the project has learned something about how hard the identifiability problem is, and that is also worth knowing.
+
+
+The SHA-256 cb0a4ce007579558df89ce396c0bf1c79fa180383e152ae45e596bbc15ac4b2e is 64 hex characters — full length, correctly formatted. That's the first fully-verifiable hash in the whole project. Good.
+
+
+Acceptance: the retrain experiment is complete and correctly reported. The pipeline remains accepted. The six-output model remains open, with a specific, well-designed next experiment.
+
+
+Worked for 8m 31s
+
+
+Accepted. The distribution-matched retrain is now a valid, completed experiment, but its six-output model is not promoted to an accepted baseline.
+
+
+I agree with the correction to the interpretation: the +0.581 result establishes an output-4 association with the calibration-like spectral feature bundle, not a centroid-specific mechanism. The next experiment needs to separate those inputs rather than infer which one the network used.
+
+
+I’ll treat the target-dynamic-range comparison as a required diagnostic alongside the decorrelation work. One important design safeguard: a spectral warp that changes centroid will generally change some FFT bins too, so the experiment must measure the achieved correlations and marginal distributions rather than label the inputs “decorrelated” by intention alone.
+
+
+The feature-decorrelation experiment is complete. It produces a useful split result: centroid-specific dependence is demonstrated in controlled feature space, but it is not isolated on the physical renderer trajectory.
+
+
+### 1\. Decorrelation results
+
+
+I used independent column permutations rather than a spectral warp. Each feature column was independently shuffled within the training and holdout partitions. This preserves the measured marginal values while breaking the original row-wise relationships.
+
+
+* 512 measured calibration feature rows.
+
+
+* 384 training rows; 128 holdout rows from disjoint base rows.
+
+
+* 1,500 epochs, Adam at 0.003, seed 1729.
+
+
+* Original feature-target functions and network topology retained.
+
+
+* The resulting feature tuples are intentionally nonphysical. This tests what the network learns when the inputs can vary independently; it does not claim to synthesize physically realizable audio.
+
+
+On the independent holdout:
+
+
+| Output 4 correlation | Result | Criterion                      |
+| -------------------- | ------ | ------------------------------ |
+| Spectral centroid    | +0.952 | ≥ +0.4: pass                   |
+| ZCR                  | +0.002 | Absolute value below 0.4: pass |
+| Spectral flatness    | −0.026 | Absolute value below 0.4: pass |
+
+
+Centroid-specific dependence supported in feature space
+
+
+The proxy-learning criterion was not met. Output 4 tracks centroid strongly, without retaining strong ZCR or flatness correlations on the decorrelated holdout.
+
+
+### 2\. Output 2 target-range diagnosis
+
+
+The proposed narrower-target explanation is contradicted by the measured data.
+
+
+| Target   | Original mean ± SD | Matched mean ± SD | SD ratio |
+| -------- | ------------------ | ----------------- | -------- |
+| Output 0 | 0.97975 ± 0.11363  | 0.94531 ± 0.20189 | 1.777×   |
+| Output 1 | 0.84390 ± 0.10954  | 0.80515 ± 0.17747 | 1.620×   |
+| Output 2 | 0.87780 ± 0.05102  | 0.83761 ± 0.07843 | 1.537×   |
+| Output 3 | 0.17155 ± 0.10762  | 0.19785 ± 0.17665 | 1.641×   |
+| Output 4 | 0.20830 ± 0.00997  | 0.20681 ± 0.01560 | 1.565×   |
+| Output 5 | 0.39594 ± 0.06271  | 0.08289 ± 0.11302 | 1.802×   |
+
+
+Output 2's target standard deviation increased by approximately 54%, rather than decreasing. That makes reduced target dynamic range an unlikely explanation for its earlier correlation degradation. It does not, by itself, identify the cause.
+
+
+Output 2 protection also passed on the decorrelated holdout:
+
+
+* Output 2 vs flatness: −0.999
+
+
+* Required range: −0.929 ± 0.15
+
+
+### 3\. Physical renderer diagnostic
+
+
+I also loaded the new checkpoint through the normal renderer and completed the fast run.
+
+
+4 seconds · 15 iterations · 3 events per iteration · seed 1729 · 274 impacts
+
+
+| Output 4 correlation | Physical render |
+| -------------------- | --------------- |
+| Spectral centroid    | +0.975          |
+| ZCR                  | +0.693          |
+| Spectral flatness    | +0.061          |
+
+
+The centroid threshold passes, and flatness is below the proxy threshold. But ZCR remains strongly correlated with output 4, so the physical-render centroid-specific criterion fails.
+
+
+Output 2 vs flatness on this render was −0.990, within the required tolerance.
+
+
+This distinction matters: the model can learn a centroid-specific mapping when the features are independently varied. But real renderer audio still couples centroid and ZCR. The physical-render correlation alone cannot establish a unique centroid mechanism.
+
+
+### 4\. Verdict
+
+
+* Controlled centroid-specific dependence: PASS.
+
+
+* Proxy-learning criterion: NOT MET.
+
+
+* Output 2 protection: PASS.
+
+
+* Physical deployment isolation: NOT MET.
+
+
+Overall, the result is partially resolved, with physical deployment still open. The output-4 model-level identifiability question has a positive controlled result. The stronger claim about its behavior on actual renderer audio remains unconfirmed.
+
+
+The six-output feature-conditional model is still not accepted as a production baseline. Full rendering, musical quality, and cross-trajectory physical generalization remain untested.
+
+
+### 5\. Deliverables
+
+
+Experiment source, report, and acceptance record
+
+
+Download the feature-decorrelation ZIP
+
+
+Read the full experiment report
+
+
+Machine-readable acceptance JSON
+
+
+Model and render artifacts
+
+
+Decorrelated checkpoint
+
+
+Fast renderer WAV
+
+
+Fast renderer diagnostics
+
+
+Training summary
+
+
+SHA-256 verification
+
+
+| Artifact   | SHA-256                                                          |
+| ---------- | ---------------------------------------------------------------- |
+| ZIP        | 8835c2fc04e5873011a5fa2302b9b908130d0956366bd20fc9eeb742c7bb7b8c |
+| Checkpoint | 4c7de5e6a2935fbd32fae0ce098247670440c3dd7a916185858ac0bbe455c891 |
+| WAV        | adfb39a7e34822e27a5b9c3e66b4121dbd6206722be961807091095e83b210a6 |
+| Report     | 2fe45aa2a2a571d35ea8e2241b824a7dd52ce20ba206c77e67fac90d9e49f9dc |
+
+
+The checkpoint passed the renderer's `weights_only=True` load and golden-vector validation. The ZIP contains the training source, renderer source, experiment runner, report, and acceptance JSON.
+
+
+My recommendation: preserve this as a controlled positive result, not as final physical validation. The next meaningful test is a physically realizable intervention that changes centroid while measuring and constraining ZCR and the other spectral descriptors—not another ordinary trajectory correlation.

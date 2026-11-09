@@ -1,0 +1,728 @@
+{
+  "title": "MagneticOracle v1 \u2014 distribution-matched retrain acceptance report",
+  "status": "mixed_result; output_4_recovers_but_composite_primary_gate_fails",
+  "experiment": {
+    "objective": "feature-conditional",
+    "distribution": "calibration-sequence",
+    "samples": 512,
+    "sequences_used": 35,
+    "sequence_length_iterations": 15,
+    "seed_for_model_and_first_trajectory": 1729,
+    "trajectory_seed_range": [
+      1729,
+      1763
+    ],
+    "epochs": 200,
+    "optimizer": "Adam",
+    "learning_rate": 0.003,
+    "calibration_controls": "exact c=0.5 from a zero-parameter 12\u2192128\u2192128\u21926 network; fixed controls",
+    "render_settings": {
+      "duration_seconds": 4.0,
+      "iterations": 15,
+      "events_per_iteration": 3,
+      "rtol": 0.001,
+      "atol": 1e-05,
+      "feature_window_samples": 4096,
+      "feature_window_seconds": 0.09287981859410431
+    },
+    "sequence_sample_accounting": "34 complete 15-step sequences (510 rows) plus first 2 rows of sequence 35 = 512 samples",
+    "sequence_generation": "Actual renderer ODE, impact threshold crossings and jitter, resonator superposition and accumulated audio; features extracted with shared renderer feature function. Fixed controls avoid model-feedback during collection.",
+    "feature_window_optimization": "The renderer integrates full 4-second ODE trajectories and preserves all three fast-mode events and random-number consumption, while storing only the first 4096 audio samples read by the model. Cached fixed-control ODE states are reused across iterations because the calibration controls and forcing are invariant.",
+    "equivalence_check": {
+      "seed": 1730,
+      "iterations": 15,
+      "full_fast_vs_feature_window_max_abs_feature_delta": 0.0,
+      "features_compared": 12
+    },
+    "scope": "Fast calibration trajectories only; not full 48-event \u00d7 60-iteration render."
+  },
+  "pre_registered_criteria": {
+    "primary": "output_4 centroid r >= +0.4 AND all other five intended-driver correlations within \u00b10.15 of prior baseline",
+    "output_4_threshold_met": true,
+    "other_five_all_within_tolerance": false,
+    "primary_gate_passed": false,
+    "secondary_instability_triggered": true,
+    "falsification_output_4_below_0_25": false
+  },
+  "comparison": {
+    "output_0": {
+      "feature": "rms",
+      "original_r": 0.5572006374969936,
+      "retrained_r": 0.49181727062413466,
+      "delta": -0.0653833668728589,
+      "within_tolerance": true,
+      "tolerance": 0.15
+    },
+    "output_1": {
+      "feature": "rms",
+      "original_r": 0.6324303761750167,
+      "retrained_r": 0.4950980722190965,
+      "delta": -0.13733230395592022,
+      "within_tolerance": true,
+      "tolerance": 0.15
+    },
+    "output_2": {
+      "feature": "spectral_flatness",
+      "original_r": -0.9289817261034069,
+      "retrained_r": -0.7037149199150261,
+      "delta": 0.2252668061883808,
+      "within_tolerance": false,
+      "tolerance": 0.15
+    },
+    "output_3": {
+      "feature": "rms",
+      "original_r": -0.6394444965327164,
+      "retrained_r": -0.49515077845161726,
+      "delta": 0.14429371808109914,
+      "within_tolerance": true,
+      "tolerance": 0.15
+    },
+    "output_5": {
+      "feature": "spectral_flux",
+      "original_r": 0.8333828943438069,
+      "retrained_r": 0.975442807667751,
+      "delta": 0.1420599133239442,
+      "within_tolerance": true,
+      "tolerance": 0.15
+    },
+    "output_4": {
+      "feature": "spectral_centroid",
+      "original_r": 0.13877588733280177,
+      "retrained_r": 0.5808803554947547,
+      "delta": 0.4421044681619529,
+      "threshold": 0.4,
+      "meets_threshold": true
+    }
+  },
+  "output_4_retrained_render_correlations": {
+    "rms": 0.14523925697355056,
+    "spectral_centroid": 0.5808803554947547,
+    "zero_crossing_rate": 0.907802067026693,
+    "spectral_flatness": -0.925781062429909,
+    "spectral_flux": 0.3187969799078798,
+    "mean": 0.11968685399313898,
+    "std": 0.14524298008972078,
+    "fft_bin_0": 0.7974204736452007,
+    "fft_bin_1": 0.9785329681815337,
+    "fft_bin_2": 0.9877974197592695,
+    "fft_bin_3": 0.8486088736946698,
+    "fft_bin_4": 0.8741908935519294
+  },
+  "training_output_feature_correlations": {
+    "output_0": {
+      "rms": 0.44965354041241434,
+      "spectral_centroid": 0.9852540340064656,
+      "zero_crossing_rate": 0.9861401278343083,
+      "spectral_flatness": -0.9934059333852928,
+      "spectral_flux": 0.05777033142512331,
+      "mean": 0.4481412567420122,
+      "std": 0.44965365563856874,
+      "fft_bin_0": 0.9959405475861661,
+      "fft_bin_1": 0.9996071025053007,
+      "fft_bin_2": 0.9992803875385643,
+      "fft_bin_3": 0.9996937004083052,
+      "fft_bin_4": 0.9962191185991222
+    },
+    "output_1": {
+      "rms": 0.43707441028425575,
+      "spectral_centroid": 0.9873987756969737,
+      "zero_crossing_rate": 0.988485394760526,
+      "spectral_flatness": -0.9927352904239157,
+      "spectral_flux": 0.08172947844331814,
+      "mean": 0.43545156624212267,
+      "std": 0.43707453295712473,
+      "fft_bin_0": 0.9955582398502948,
+      "fft_bin_1": 0.9997420466672224,
+      "fft_bin_2": 0.9995087855868301,
+      "fft_bin_3": 0.9998146852846204,
+      "fft_bin_4": 0.9958549789294935
+    },
+    "output_2": {
+      "rms": 0.44934899440056214,
+      "spectral_centroid": 0.987607464733212,
+      "zero_crossing_rate": 0.9874504796543871,
+      "spectral_flatness": -0.9918629923026655,
+      "spectral_flux": 0.07982887457582502,
+      "mean": 0.447589646884868,
+      "std": 0.44934912484691986,
+      "fft_bin_0": 0.9948938208808762,
+      "fft_bin_1": 0.9995854629424058,
+      "fft_bin_2": 0.9994514098067219,
+      "fft_bin_3": 0.999640913207281,
+      "fft_bin_4": 0.9952071427381805
+    },
+    "output_3": {
+      "rms": -0.4377733330721967,
+      "spectral_centroid": -0.9875335736349262,
+      "zero_crossing_rate": -0.9885889761341122,
+      "spectral_flatness": 0.9926342144418674,
+      "spectral_flux": -0.08478988559498765,
+      "mean": -0.4361421450613491,
+      "std": -0.43777345621805,
+      "fft_bin_0": -0.9954794127219061,
+      "fft_bin_1": -0.9997184649888331,
+      "fft_bin_2": -0.9994954278075485,
+      "fft_bin_3": -0.9997894097286046,
+      "fft_bin_4": -0.9957780767425521
+    },
+    "output_4": {
+      "rms": 0.3966906931739143,
+      "spectral_centroid": 0.9711065938927399,
+      "zero_crossing_rate": 0.9841456227557662,
+      "spectral_flatness": -0.9887710112277414,
+      "spectral_flux": 0.17704158154835914,
+      "mean": 0.3967256443768789,
+      "std": 0.39669071504436526,
+      "fft_bin_0": 0.9891113747277074,
+      "fft_bin_1": 0.9878973923196019,
+      "fft_bin_2": 0.9866262469866193,
+      "fft_bin_3": 0.9881447827742507,
+      "fft_bin_4": 0.9892301454660731
+    },
+    "output_5": {
+      "rms": -0.4842466687761658,
+      "spectral_centroid": 0.04238737271014173,
+      "zero_crossing_rate": 0.07319776324740988,
+      "spectral_flatness": 0.023494196883730212,
+      "spectral_flux": 0.9835834412759243,
+      "mean": -0.48419638172089324,
+      "std": -0.48424664857657423,
+      "fft_bin_0": -0.019377927397330418,
+      "fft_bin_1": -0.013535875761310863,
+      "fft_bin_2": -0.012610252598247843,
+      "fft_bin_3": -0.013616069189841491,
+      "fft_bin_4": -0.01915665274726934
+    }
+  },
+  "training_output_target_correlations": {
+    "output_0": 0.9997442102110524,
+    "output_1": 0.9999518731759519,
+    "output_2": 0.9918629902881314,
+    "output_3": 0.9999313838111112,
+    "output_4": 0.9711065943345865,
+    "output_5": 0.9835834411844074
+  },
+  "training_feature_correlation_matrix": [
+    [
+      1.0,
+      0.39126419767169285,
+      0.36030816902375346,
+      -0.4443950674006781,
+      -0.3810409563890839,
+      0.9994868046292777,
+      0.9999999999980411,
+      0.4417935707661653,
+      0.44060449746982877,
+      0.4400949579960043,
+      0.44064191183457163,
+      0.4417961325265556
+    ],
+    [
+      0.3912641976716929,
+      0.9999999999999998,
+      0.986495856543186,
+      -0.9623719603287265,
+      0.12566535543199808,
+      0.3863789687750496,
+      0.3912645228763263,
+      0.9710617850668275,
+      0.9867247089024467,
+      0.9886853779704632,
+      0.9864836202324088,
+      0.9717249446102096
+    ],
+    [
+      0.36030816902375346,
+      0.986495856543186,
+      1.0,
+      -0.9770282212234738,
+      0.15321440842290002,
+      0.35825503308020296,
+      0.3603083205296082,
+      0.9813077256770713,
+      0.9875022037096248,
+      0.9876510132217332,
+      0.9875759890046718,
+      0.9816482612321806
+    ],
+    [
+      -0.4443950674006781,
+      -0.9623719603287264,
+      -0.9770282212234737,
+      0.9999999999999999,
+      -0.06465470380302052,
+      -0.4452420318989159,
+      -0.4443950373085895,
+      -0.9980039064488676,
+      -0.9925909058013722,
+      -0.9905381058415746,
+      -0.9929525277444582,
+      -0.997981881142839
+    ],
+    [
+      -0.381040956389084,
+      0.12566535543199808,
+      0.15321440842290004,
+      -0.06465470380302052,
+      1.0,
+      -0.38110750440771196,
+      -0.3810409300816914,
+      0.06836937336633694,
+      0.07488078084129676,
+      0.07586075188966393,
+      0.07479556050465627,
+      0.06862008333107364
+    ],
+    [
+      0.9994868046292776,
+      0.3863789687750496,
+      0.358255033080203,
+      -0.44524203189891587,
+      -0.38110750440771196,
+      0.9999999999999999,
+      0.9994867412762324,
+      0.44238119682702476,
+      0.4389631712695108,
+      0.4380361839499168,
+      0.43908370647630973,
+      0.44230175144720657
+    ],
+    [
+      0.9999999999980412,
+      0.3912645228763263,
+      0.36030832052960826,
+      -0.44439503730858954,
+      -0.3810409300816914,
+      0.9994867412762323,
+      0.9999999999999999,
+      0.4417935567622621,
+      0.4406046210252047,
+      0.4400951072883048,
+      0.44064203026880144,
+      0.4417961235875052
+    ],
+    [
+      0.4417935707661653,
+      0.9710617850668275,
+      0.9813077256770711,
+      -0.9980039064488677,
+      0.06836937336633693,
+      0.4423811968270248,
+      0.4417935567622622,
+      0.9999999999999998,
+      0.9953388964776051,
+      0.9934370093030088,
+      0.9957061049485781,
+      0.9999911471542161
+    ],
+    [
+      0.4406044974698287,
+      0.9867247089024468,
+      0.9875022037096249,
+      -0.9925909058013722,
+      0.07488078084129676,
+      0.43896317126951073,
+      0.4406046210252047,
+      0.9953388964776051,
+      1.0,
+      0.9998365667126855,
+      0.999983812754473,
+      0.9956872063392455
+    ],
+    [
+      0.4400949579960043,
+      0.9886853779704633,
+      0.9876510132217331,
+      -0.9905381058415745,
+      0.07586075188966392,
+      0.4380361839499168,
+      0.4400951072883048,
+      0.9934370093030089,
+      0.9998365667126855,
+      1.0,
+      0.9997534690752692,
+      0.9938493524695089
+    ],
+    [
+      0.4406419118345716,
+      0.9864836202324087,
+      0.9875759890046717,
+      -0.9929525277444583,
+      0.07479556050465627,
+      0.43908370647630973,
+      0.44064203026880133,
+      0.9957061049485781,
+      0.9999838127544729,
+      0.9997534690752691,
+      1.0,
+      0.9960316463113073
+    ],
+    [
+      0.44179613252655564,
+      0.9717249446102096,
+      0.9816482612321806,
+      -0.9979818811428391,
+      0.06862008333107364,
+      0.44230175144720657,
+      0.44179612358750514,
+      0.9999911471542161,
+      0.9956872063392455,
+      0.9938493524695088,
+      0.9960316463113074,
+      1.0
+    ]
+  ],
+  "render_feature_output_correlation_matrix": {
+    "feature_names": [
+      "rms",
+      "spectral_centroid",
+      "zero_crossing_rate",
+      "spectral_flatness",
+      "spectral_flux",
+      "mean",
+      "std",
+      "fft_bin_0",
+      "fft_bin_1",
+      "fft_bin_2",
+      "fft_bin_3",
+      "fft_bin_4"
+    ],
+    "output_names": [
+      "output_0",
+      "output_1",
+      "output_2",
+      "output_3",
+      "output_4",
+      "output_5"
+    ],
+    "pearson_r_rows_by_feature": [
+      [
+        0.49181727062413466,
+        0.4950980722190965,
+        0.520677016281185,
+        -0.49515077845161726,
+        0.14523925697355056,
+        -0.553082478292325
+      ],
+      [
+        0.843893046747317,
+        0.8451082875253679,
+        0.8601450786353673,
+        -0.8449251425651109,
+        0.5808803554947547,
+        -0.40730894418471913
+      ],
+      [
+        0.9568354759520001,
+        0.9600804172933196,
+        0.9601671876588423,
+        -0.9607826293197056,
+        0.907802067026693,
+        0.1375143146496042
+      ],
+      [
+        -0.7250189370114043,
+        -0.7241819212183515,
+        -0.7037149199150261,
+        0.7245293083444009,
+        -0.925781062429909,
+        -0.48006733470208013
+      ],
+      [
+        0.11289827445000394,
+        0.12690171077409837,
+        0.1199103277077554,
+        -0.1298006952030698,
+        0.3187969799078798,
+        0.975442807667751
+      ],
+      [
+        0.47697437929826847,
+        0.4798427782271645,
+        0.5058319833244598,
+        -0.4797630197947585,
+        0.11968685399313898,
+        -0.5920289250267015
+      ],
+      [
+        0.4918191816565653,
+        0.4951000451471415,
+        0.5206789157385336,
+        -0.49515277183689865,
+        0.14524298008972078,
+        -0.5530762692907646
+      ],
+      [
+        0.9607192271917693,
+        0.9606886781897294,
+        0.9657820781975106,
+        -0.9603538511146149,
+        0.7974204736452007,
+        -0.22859851691807354
+      ],
+      [
+        0.9796034985363872,
+        0.9792684263194025,
+        0.9727291851834926,
+        -0.9793580757927297,
+        0.9785329681815337,
+        0.10380899619127583
+      ],
+      [
+        0.9222099145329634,
+        0.9230417805653619,
+        0.9129277845326047,
+        -0.9235116643361349,
+        0.9877974197592695,
+        0.28157134182437143
+      ],
+      [
+        0.9769698689231348,
+        0.9799793709633889,
+        0.9846126447003574,
+        -0.9802994364389305,
+        0.8486088736946698,
+        -0.03726539296635454
+      ],
+      [
+        0.9920765139808008,
+        0.993686827493884,
+        0.99677496192639,
+        -0.9938271177734821,
+        0.8741908935519294,
+        -0.06854688985172121
+      ]
+    ]
+  },
+  "feature_statistics": [
+    {
+      "feature": "rms",
+      "training_mean": 8.65298080444336,
+      "training_std": 5.359700679779053,
+      "calibration_reference_mean": 8.426295744487508,
+      "calibration_reference_std": 5.155990475430027,
+      "conditional_retrain_render_mean": 6.154949827103678,
+      "conditional_retrain_render_std": 3.40124967802775
+    },
+    {
+      "feature": "spectral_centroid",
+      "training_mean": 0.07575108110904694,
+      "training_std": 0.02079647406935692,
+      "calibration_reference_mean": 0.06663575917482376,
+      "calibration_reference_std": 0.018509600876274807,
+      "conditional_retrain_render_mean": 0.09979920734961828,
+      "conditional_retrain_render_std": 0.031815636655406654
+    },
+    {
+      "feature": "zero_crossing_rate",
+      "training_mean": 0.010016059502959251,
+      "training_std": 0.002745044883340597,
+      "calibration_reference_mean": 0.010061050330599149,
+      "calibration_reference_std": 0.0027152022483663022,
+      "conditional_retrain_render_mean": 0.010028490299979846,
+      "conditional_retrain_render_std": 0.0027949521890676793
+    },
+    {
+      "feature": "spectral_flatness",
+      "training_mean": 0.1404883861541748,
+      "training_std": 0.09803354740142822,
+      "calibration_reference_mean": 0.11257979472478231,
+      "calibration_reference_std": 0.10475053761407711,
+      "conditional_retrain_render_mean": 0.2369594176610311,
+      "conditional_retrain_render_std": 0.09595390069974775
+    },
+    {
+      "feature": "spectral_flux",
+      "training_mean": 0.0365450382232666,
+      "training_std": 0.12557892501354218,
+      "calibration_reference_mean": 0.03943458693102002,
+      "calibration_reference_std": 0.12338131757829694,
+      "conditional_retrain_render_mean": 0.05623170426115394,
+      "conditional_retrain_render_std": 0.12166723689241538
+    },
+    {
+      "feature": "mean",
+      "training_mean": 0.06812828034162521,
+      "training_std": 0.04234513267874718,
+      "calibration_reference_mean": 0.07013288289308547,
+      "calibration_reference_std": 0.04360448391480439,
+      "conditional_retrain_render_mean": 0.07856249374647935,
+      "conditional_retrain_render_std": 0.04484618089981611
+    },
+    {
+      "feature": "std",
+      "training_mean": 8.652706146240234,
+      "training_std": 5.359533309936523,
+      "calibration_reference_mean": 8.426003694534302,
+      "calibration_reference_std": 5.155806274431551,
+      "conditional_retrain_render_mean": 6.154446331659953,
+      "conditional_retrain_render_std": 3.4009578804973306
+    },
+    {
+      "feature": "fft_bin_0",
+      "training_mean": 0.028740504756569862,
+      "training_std": 0.00781642459332943,
+      "calibration_reference_mean": 0.02964733007053534,
+      "calibration_reference_std": 0.007933430966319934,
+      "conditional_retrain_render_mean": 0.03737442195415497,
+      "conditional_retrain_render_std": 0.010431626826649967
+    },
+    {
+      "feature": "fft_bin_1",
+      "training_mean": 0.050600599497556686,
+      "training_std": 0.013709899969398975,
+      "calibration_reference_mean": 0.050856191913286844,
+      "calibration_reference_std": 0.01359636647429032,
+      "conditional_retrain_render_mean": 0.04229902798930804,
+      "conditional_retrain_render_std": 0.011512693537515203
+    },
+    {
+      "feature": "fft_bin_2",
+      "training_mean": 0.06441132724285126,
+      "training_std": 0.01745733432471752,
+      "calibration_reference_mean": 0.06439272860685984,
+      "calibration_reference_std": 0.01721701766156212,
+      "conditional_retrain_render_mean": 0.0419836218158404,
+      "conditional_retrain_render_std": 0.012104356263234807
+    },
+    {
+      "feature": "fft_bin_3",
+      "training_mean": 0.047701235860586166,
+      "training_std": 0.012923234142363071,
+      "calibration_reference_mean": 0.04794084280729294,
+      "calibration_reference_std": 0.012815971347678569,
+      "conditional_retrain_render_mean": 0.03517099445064863,
+      "conditional_retrain_render_std": 0.009631298736735657
+    },
+    {
+      "feature": "fft_bin_4",
+      "training_mean": 0.029275914654135704,
+      "training_std": 0.007959782145917416,
+      "calibration_reference_mean": 0.030184508115053178,
+      "calibration_reference_std": 0.008076809698812663,
+      "conditional_retrain_render_mean": 0.037544400741656624,
+      "conditional_retrain_render_std": 0.010123350538621971
+    }
+  ],
+  "training_loss": {
+    "aggregate_initial": 0.15005478262901306,
+    "aggregate_final": 0.0003643428208306432,
+    "per_output": {
+      "output_0": {
+        "initial_mse": 0.31796038150787354,
+        "minimum_mse": 2.4463803129037842e-05,
+        "final_mse": 2.4463803129037842e-05,
+        "minimum_epoch": 200
+      },
+      "output_1": {
+        "initial_mse": 0.030213557183742523,
+        "minimum_mse": 3.0739238354726695e-06,
+        "final_mse": 3.0739238354726695e-06,
+        "minimum_epoch": 200
+      },
+      "output_2": {
+        "initial_mse": 0.19664478302001953,
+        "minimum_mse": 9.982220217352733e-05,
+        "final_mse": 9.982220217352733e-05,
+        "minimum_epoch": 200
+      },
+      "output_3": {
+        "initial_mse": 0.09836442768573761,
+        "minimum_mse": 4.368857844383456e-06,
+        "final_mse": 4.368857844383456e-06,
+        "minimum_epoch": 200
+      },
+      "output_4": {
+        "initial_mse": 0.0847453698515892,
+        "minimum_mse": 1.4062774425838143e-05,
+        "final_mse": 1.4062774425838143e-05,
+        "minimum_epoch": 200
+      },
+      "output_5": {
+        "initial_mse": 0.17240002751350403,
+        "minimum_mse": 0.002040265593677759,
+        "final_mse": 0.002040265593677759,
+        "minimum_epoch": 200
+      }
+    }
+  },
+  "render": {
+    "impact_count": 278,
+    "impact_count_by_iteration": [
+      21,
+      21,
+      21,
+      19,
+      20,
+      16,
+      15,
+      18,
+      21,
+      14,
+      21,
+      19,
+      18,
+      17,
+      17
+    ],
+    "control_std": {
+      "field_boost": 0.09953862764627548,
+      "snap": 0.14221033945364897,
+      "decay_scale": 0.1187539372331399,
+      "impact_threshold": 0.26548608771867593,
+      "release_time": 0.013856800732343244,
+      "pitch_drift": 2.8542635508953516
+    },
+    "feature_mean": [
+      6.154949827103678,
+      0.09979920734961828,
+      0.010028490299979846,
+      0.2369594176610311,
+      0.05623170426115394,
+      0.07856249374647935,
+      6.154446331659953,
+      0.03737442195415497,
+      0.04229902798930804,
+      0.0419836218158404,
+      0.03517099445064863,
+      0.037544400741656624
+    ],
+    "feature_std": [
+      3.40124967802775,
+      0.031815636655406654,
+      0.0027949521890676793,
+      0.09595390069974775,
+      0.12166723689241538,
+      0.04484618089981611,
+      3.4009578804973306,
+      0.010431626826649967,
+      0.011512693537515203,
+      0.012104356263234807,
+      0.009631298736735657,
+      0.010123350538621971
+    ],
+    "wav": "retrain_fast.wav"
+  },
+  "interpretation": {
+    "supported": "Output 4 centroid correlation rises from +0.139 to +0.581, exceeding the registered +0.4 threshold. Its training target correlation also rises from +0.574 to +0.971. This is strong evidence that training on calibration-like sequences can restore positive centroid association on this fast render trajectory.",
+    "not_confirmed": "The composite primary criterion fails because output 2 spectral-flatness correlation changes from -0.929 to -0.704 (delta +0.225, outside \u00b10.15). The pre-registered secondary instability condition is therefore triggered. Do not declare Hypothesis A confirmed or accept this as a complete six-output baseline.",
+    "collinearity": "The matched training set has severe joint collinearity: centroid correlates +0.984 with ZCR and -0.989 with flatness; output 4 correlates +0.971 with centroid but also +0.984 with ZCR, -0.989 with flatness, and about +0.987 to +0.989 with FFT bins. On the conditional render, output 4 correlates +0.581 with centroid, +0.908 with ZCR, -0.926 with flatness, and +0.80 to +0.99 with FFT bins. The correlation recovery is therefore not evidence of a unique centroid-specific dependency; correlated spectral proxies remain plausible.",
+    "feedback_loop": "The retrained conditional render distribution diverges from the calibration training distribution: RMS mean 6.155 vs 8.653, centroid 0.0998 vs 0.0758, flatness 0.237 vs 0.140. This is consistent with the model-dependent feedback loop described in the proposal.",
+    "next_step": "A second experiment should address joint-feature identifiability and output-2 stability before drawing a causal conclusion about output 4. Do not silently change the release target. Consider controlled decorrelation/feature-ablation diagnostics or a preregistered multi-trajectory training set, then repeat the same gates."
+  },
+  "limitations": [
+    "15-iteration sequential correlations are not independent-sample validation.",
+    "Only the 4-second fast-mode, three-event subset was used.",
+    "The prior feature-conditional checkpoint was overwritten; comparison to its recorded JSON metrics is not a bit-for-bit paired checkpoint comparison.",
+    "The conditional retrain render has a different feature distribution from the fixed-control calibration training distribution.",
+    "Musical quality, full render, cross-trajectory generalization, and historical parity remain untested."
+  ],
+  "checkpoint": {
+    "path": "magnetic_oracle_feature_conditional_retrain.pt",
+    "format": "magnetic-oracle-v1",
+    "weights_only_load": "passed via renderer CLI",
+    "golden_vector_validation": "passed via renderer CLI",
+    "recovered_weights": false,
+    "git_commit": "unknown"
+  }
+}

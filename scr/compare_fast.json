@@ -1,0 +1,402 @@
+{
+  "comparison": [
+    "calibration",
+    "feature-conditional"
+  ],
+  "reports": [
+    {
+      "checkpoint": "magnetic_oracle_calibration.pt",
+      "sample_rate": 44100,
+      "duration_seconds": 4.0,
+      "iterations": 15,
+      "render_mode": "fast_pipeline_subset",
+      "event_count_per_iteration": 3,
+      "impact_count": 289,
+      "impact_count_by_iteration": [
+        22,
+        20,
+        14,
+        18,
+        20,
+        16,
+        20,
+        20,
+        20,
+        22,
+        22,
+        20,
+        19,
+        20,
+        16
+      ],
+      "input_rms_by_iteration": [
+        9.999999974752427e-07,
+        1.2696943283081055,
+        2.5143353939056396,
+        2.7975127696990967,
+        3.5570578575134277,
+        3.884174346923828,
+        4.4904704093933105,
+        4.912579536437988,
+        5.477591514587402,
+        5.985488414764404,
+        6.338747978210449,
+        6.427628517150879,
+        6.7849812507629395,
+        7.133233070373535,
+        7.192202091217041
+      ],
+      "input_features_by_iteration": [
+        {
+          "rms": 9.999999974752427e-07,
+          "spectral_centroid": 0.0,
+          "zero_crossing_rate": 0.0,
+          "spectral_flatness": 0.5,
+          "spectral_flux": 0.0
+        },
+        {
+          "rms": 1.2696943283081055,
+          "spectral_centroid": 0.0931691899895668,
+          "zero_crossing_rate": 0.011477411724627018,
+          "spectral_flatness": 0.1522093564271927,
+          "spectral_flux": 0.5
+        },
+        {
+          "rms": 2.5143353939056396,
+          "spectral_centroid": 0.09105924516916275,
+          "zero_crossing_rate": 0.011965812183916569,
+          "spectral_flatness": 0.14309567213058472,
+          "spectral_flux": 0.004667887929826975
+        },
+        {
+          "rms": 2.7975127696990967,
+          "spectral_centroid": 0.10991832613945007,
+          "zero_crossing_rate": 0.008058608509600163,
+          "spectral_flatness": 0.21974530816078186,
+          "spectral_flux": 0.1490359753370285
+        },
+        {
+          "rms": 3.5570578575134277,
+          "spectral_centroid": 0.11812696605920792,
+          "zero_crossing_rate": 0.007570207584649324,
+          "spectral_flatness": 0.24870024621486664,
+          "spectral_flux": 0.07802369445562363
+        },
+        {
+          "rms": 3.884174346923828,
+          "spectral_centroid": 0.09970535337924957,
+          "zero_crossing_rate": 0.009035409428179264,
+          "spectral_flatness": 0.19315464794635773,
+          "spectral_flux": 0.07449160516262054
+        },
+        {
+          "rms": 4.4904704093933105,
+          "spectral_centroid": 0.08000367879867554,
+          "zero_crossing_rate": 0.006105006206780672,
+          "spectral_flatness": 0.1238442212343216,
+          "spectral_flux": 0.052984852343797684
+        },
+        {
+          "rms": 4.912579536437988,
+          "spectral_centroid": 0.06298601627349854,
+          "zero_crossing_rate": 0.0063492064364254475,
+          "spectral_flatness": 0.05651714652776718,
+          "spectral_flux": 0.04059162735939026
+        },
+        {
+          "rms": 5.477591514587402,
+          "spectral_centroid": 0.06447427719831467,
+          "zero_crossing_rate": 0.0063492064364254475,
+          "spectral_flatness": 0.0758146122097969,
+          "spectral_flux": 0.03825001046061516
+        },
+        {
+          "rms": 5.985488414764404,
+          "spectral_centroid": 0.0720604807138443,
+          "zero_crossing_rate": 0.005372405517846346,
+          "spectral_flatness": 0.1154966950416565,
+          "spectral_flux": 0.024006839841604233
+        },
+        {
+          "rms": 6.338747978210449,
+          "spectral_centroid": 0.08329388499259949,
+          "zero_crossing_rate": 0.005860805977135897,
+          "spectral_flatness": 0.1606808751821518,
+          "spectral_flux": 0.03212730586528778
+        },
+        {
+          "rms": 6.427628517150879,
+          "spectral_centroid": 0.0886101946234703,
+          "zero_crossing_rate": 0.005372405517846346,
+          "spectral_flatness": 0.18061937391757965,
+          "spectral_flux": 0.033238209784030914
+        },
+        {
+          "rms": 6.7849812507629395,
+          "spectral_centroid": 0.09179860353469849,
+          "zero_crossing_rate": 0.005372405517846346,
+          "spectral_flatness": 0.1927069127559662,
+          "spectral_flux": 0.03285983204841614
+        },
+        {
+          "rms": 7.133233070373535,
+          "spectral_centroid": 0.08656135946512222,
+          "zero_crossing_rate": 0.005372405517846346,
+          "spectral_flatness": 0.1758139282464981,
+          "spectral_flux": 0.03376750648021698
+        },
+        {
+          "rms": 7.192202091217041,
+          "spectral_centroid": 0.08122723549604416,
+          "zero_crossing_rate": 0.005372405517846346,
+          "spectral_flatness": 0.1601739376783371,
+          "spectral_flux": 0.03530992195010185
+        }
+      ],
+      "impact_threshold_direction": "higher RMS target lowers threshold; intended to permit more impacts",
+      "release_time_range_seconds": [
+        2.5,
+        3.5
+      ],
+      "peak_before_normalize": 12743.414214143184,
+      "normalized_output_min": [
+        0.4979821443557739,
+        0.5147750973701477,
+        0.4819454848766327,
+        0.49370402097702026,
+        0.49511221051216125,
+        0.4768798351287842
+      ],
+      "normalized_output_max": [
+        0.5039143562316895,
+        0.5611907839775085,
+        0.502233624458313,
+        0.5088824033737183,
+        0.506173312664032,
+        0.4979158937931061
+      ],
+      "normalized_output_mean": [
+        0.5004093329111735,
+        0.5432708581288656,
+        0.49239372412363686,
+        0.4995526889959971,
+        0.4999510169029236,
+        0.4866732915242513
+      ],
+      "control_mean": {
+        "field_boost": 1.0002046664555868,
+        "snap": 1.2346166865030925,
+        "decay_scale": 1.2385905861854554,
+        "impact_threshold": 1.2493290334939957,
+        "release_time": 2.9999510169029238,
+        "pitch_drift": -0.47976150512695315
+      },
+      "wav": "compare_calibration.wav",
+      "seed": 1729,
+      "objective": "calibration_only"
+    },
+    {
+      "checkpoint": "magnetic_oracle_feature_conditional.pt",
+      "sample_rate": 44100,
+      "duration_seconds": 4.0,
+      "iterations": 15,
+      "render_mode": "fast_pipeline_subset",
+      "event_count_per_iteration": 3,
+      "impact_count": 281,
+      "impact_count_by_iteration": [
+        22,
+        18,
+        17,
+        19,
+        19,
+        20,
+        19,
+        20,
+        17,
+        18,
+        20,
+        18,
+        19,
+        17,
+        18
+      ],
+      "input_rms_by_iteration": [
+        9.999999974752427e-07,
+        1.1764260530471802,
+        1.1858981847763062,
+        1.701032280921936,
+        1.6175768375396729,
+        2.0424728393554688,
+        2.420153856277466,
+        2.0876078605651855,
+        2.5579540729522705,
+        2.3607757091522217,
+        2.546935558319092,
+        2.776764392852783,
+        2.4534974098205566,
+        3.062018394470215,
+        2.9270834922790527
+      ],
+      "input_features_by_iteration": [
+        {
+          "rms": 9.999999974752427e-07,
+          "spectral_centroid": 0.0,
+          "zero_crossing_rate": 0.0,
+          "spectral_flatness": 0.5,
+          "spectral_flux": 0.0
+        },
+        {
+          "rms": 1.1764260530471802,
+          "spectral_centroid": 0.09388366341590881,
+          "zero_crossing_rate": 0.01245421264320612,
+          "spectral_flatness": 0.15177693963050842,
+          "spectral_flux": 0.5
+        },
+        {
+          "rms": 1.1858981847763062,
+          "spectral_centroid": 0.12139914184808731,
+          "zero_crossing_rate": 0.017338218167424202,
+          "spectral_flatness": 0.23383185267448425,
+          "spectral_flux": 0.2743109464645386
+        },
+        {
+          "rms": 1.701032280921936,
+          "spectral_centroid": 0.12763036787509918,
+          "zero_crossing_rate": 0.013919414021074772,
+          "spectral_flatness": 0.27032145857810974,
+          "spectral_flux": 0.13555759191513062
+        },
+        {
+          "rms": 1.6175768375396729,
+          "spectral_centroid": 0.12384243309497833,
+          "zero_crossing_rate": 0.01587301678955555,
+          "spectral_flatness": 0.2646509110927582,
+          "spectral_flux": 0.23328956961631775
+        },
+        {
+          "rms": 2.0424728393554688,
+          "spectral_centroid": 0.11063899844884872,
+          "zero_crossing_rate": 0.011965812183916569,
+          "spectral_flatness": 0.2256270945072174,
+          "spectral_flux": 0.19917085766792297
+        },
+        {
+          "rms": 2.420153856277466,
+          "spectral_centroid": 0.12251953780651093,
+          "zero_crossing_rate": 0.014896214939653873,
+          "spectral_flatness": 0.25919345021247864,
+          "spectral_flux": 0.07885465770959854
+        },
+        {
+          "rms": 2.0876078605651855,
+          "spectral_centroid": 0.12018848210573196,
+          "zero_crossing_rate": 0.015384615398943424,
+          "spectral_flatness": 0.2490376979112625,
+          "spectral_flux": 0.0819828063249588
+        },
+        {
+          "rms": 2.5579540729522705,
+          "spectral_centroid": 0.12285079061985016,
+          "zero_crossing_rate": 0.014407814480364323,
+          "spectral_flatness": 0.2672940492630005,
+          "spectral_flux": 0.09362945705652237
+        },
+        {
+          "rms": 2.3607757091522217,
+          "spectral_centroid": 0.1274653971195221,
+          "zero_crossing_rate": 0.017338218167424202,
+          "spectral_flatness": 0.2777825891971588,
+          "spectral_flux": 0.11270913481712341
+        },
+        {
+          "rms": 2.546935558319092,
+          "spectral_centroid": 0.11476542800664902,
+          "zero_crossing_rate": 0.017826618626713753,
+          "spectral_flatness": 0.238534078001976,
+          "spectral_flux": 0.051397405564785004
+        },
+        {
+          "rms": 2.776764392852783,
+          "spectral_centroid": 0.11027760058641434,
+          "zero_crossing_rate": 0.018803419545292854,
+          "spectral_flatness": 0.22473470866680145,
+          "spectral_flux": 0.05935947224497795
+        },
+        {
+          "rms": 2.4534974098205566,
+          "spectral_centroid": 0.10388457030057907,
+          "zero_crossing_rate": 0.020268620923161507,
+          "spectral_flatness": 0.20411282777786255,
+          "spectral_flux": 0.08701921999454498
+        },
+        {
+          "rms": 3.062018394470215,
+          "spectral_centroid": 0.09363353997468948,
+          "zero_crossing_rate": 0.018315019086003304,
+          "spectral_flatness": 0.1703689992427826,
+          "spectral_flux": 0.0735771507024765
+        },
+        {
+          "rms": 2.9270834922790527,
+          "spectral_centroid": 0.0963258370757103,
+          "zero_crossing_rate": 0.02173382230103016,
+          "spectral_flatness": 0.17492692172527313,
+          "spectral_flux": 0.06264317780733109
+        }
+      ],
+      "impact_threshold_direction": "higher RMS target lowers threshold; intended to permit more impacts",
+      "release_time_range_seconds": [
+        2.5,
+        3.5
+      ],
+      "peak_before_normalize": 10270.524008080569,
+      "normalized_output_min": [
+        0.6688231825828552,
+        0.5889787673950195,
+        0.6775708794593811,
+        0.13303323090076447,
+        0.1477125734090805,
+        0.32508930563926697
+      ],
+      "normalized_output_max": [
+        0.936290442943573,
+        0.8823118209838867,
+        0.8869354724884033,
+        0.39979875087738037,
+        0.36242568492889404,
+        0.4651818871498108
+      ],
+      "normalized_output_mean": [
+        0.8730360905329386,
+        0.8067754109700521,
+        0.8243353048960368,
+        0.20502214233080546,
+        0.21575657625993092,
+        0.37053539355595905
+      ],
+      "control_mean": {
+        "field_boost": 1.1865180452664694,
+        "snap": 1.4454203287760417,
+        "decay_scale": 1.7365029573440551,
+        "impact_threshold": 0.8075332134962082,
+        "release_time": 2.7157565762599307,
+        "pitch_drift": -4.660725831985474
+      },
+      "wav": "compare_feature_conditional.wav",
+      "seed": 1729,
+      "objective": "feature_conditional"
+    }
+  ],
+  "deltas_b_minus_a": {
+    "impact_count": -8,
+    "peak_before_normalize": -2472.890206062615,
+    "normalized_output_mean": [
+      0.3726267576217651,
+      0.26350455284118657,
+      0.33194158077239994,
+      -0.29453054666519163,
+      -0.2841944406429927,
+      -0.11613789796829227
+    ]
+  }
+}
